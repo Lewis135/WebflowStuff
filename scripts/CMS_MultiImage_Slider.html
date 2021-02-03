@@ -1,0 +1,43 @@
+<script>
+(function () {
+    //Edit here the names of the selector classes and Ids.
+    var sliderId = 'MultiImageSlider'; //Slider id
+    var slideClass = 'slide'; // Each slide class
+    var leftArrowClass = 'left-arrow'; 
+    var rightArrowClass = 'right-arrow';
+    var slideNavClass = 'slide-nav';
+    var collectionListWrapperId = 'MultiImageCollectionWrapper'; // Colection wrapper
+    var collectionItemClass = 'collectionproduct'; // collection item class
+    //End of Edit
+
+    //The code
+    var $slider = $('#' + sliderId);
+    var $slides = $slider.find('.' + slideClass);
+    var $collectionWrapper = $('#' + collectionListWrapperId);
+    var $images = $collectionWrapper.find('.' + collectionItemClass);
+
+    if ($slider && $collectionWrapper) {
+        $slider.css('opacity', 0);
+
+        if (!$images || !$images.length) {
+            $slider.remove();
+        }
+        else {
+            var imgCount = $images.length;
+            var slideCount = $slides.length;
+            if (imgCount > slideCount) imgCount = slideCount;
+            for (var i = 0; i < imgCount; i++) {
+                $slides[i].style.backgroundImage = $images[i].style.backgroundImage;
+            }
+            for (var i = slideCount; i > imgCount; i--) {
+                $slides[i - 1].remove();
+            }
+
+            if (imgCount < 2) {
+                $slider.find('.' + leftArrowClass + ', .' + rightArrowClass + ', .' + slideNavClass).remove();
+            }
+            $slider.css('opacity', 1);
+        }
+        $collectionWrapper.remove();
+    }   
+})();
